@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const morgan = require('morgan')
 const mongoose = require('mongoose');
 
 const Player = require('./models/player');
@@ -20,6 +21,8 @@ db.once("open", () => {
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs')
+
+app.use(morgan('dev'));
 
 app.get('/', (req, res) => {
     res.render('home');
