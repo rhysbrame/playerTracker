@@ -16,15 +16,12 @@ db.once("open", () => {
     console.log("Database connected");
 });
 
-const seedPlayersDB = async () => {
+const masterSeedDB = async () => {
     await Player.deleteMany({});
     for (const player of playerSeeds) {
         const p = new Player(player);
         await p.save();        
-    }    
-}
-
-const seedTeamsDB = async () => {
+    }
     await Team.deleteMany({});
     for (const team of teamSeeds) {
         const t = new Team(team);
@@ -32,5 +29,6 @@ const seedTeamsDB = async () => {
     }
 }
 
-seedPlayersDB();
-seedTeamsDB();
+masterSeedDB().then(() => {
+    mongoose.connection.close();
+})
