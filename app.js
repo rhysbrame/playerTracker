@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const morgan = require('morgan')
 const mongoose = require('mongoose');
+const ejsMate = require('ejs-mate')
 
 const Player = require('./models/player');
 const Team = require('./models/team')
@@ -19,6 +20,7 @@ db.once("open", () => {
     console.log("Database connected");
 });
 
+app.engine('ejs', ejsMate);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs')
 
