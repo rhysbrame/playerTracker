@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Player = require('../models/player');
-const { playerSeeds } = require('./playerSeeds')
+const Team = require('../models/team');
+const { playerSeeds } = require('./playerSeeds');
+const { teamSeeds } = require('./teamSeeds');
 
 mongoose.connect('mongodb://localhost:27017/playerTracker', { 
     useNewUrlParser: true,
@@ -14,7 +16,7 @@ db.once("open", () => {
     console.log("Database connected");
 });
 
-const seedDB = async () => {
+const seedPlayersDB = async () => {
     await Player.deleteMany({});
     for (const player of playerSeeds) {
         const p = new Player(player);
@@ -22,4 +24,13 @@ const seedDB = async () => {
     }    
 }
 
-seedDB();
+const seedTeamsDB = async () => {
+    await Team.deleteMany({});
+    for (const team of teamSeeds) {
+        const t = new Team(team);
+        await t.save();
+    }
+}
+
+seedPlayersDB();
+seedTeamsDB();

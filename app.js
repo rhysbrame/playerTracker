@@ -4,6 +4,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 
 const Player = require('./models/player');
+const Team = require('./models/team')
 
 mongoose.connect('mongodb://localhost:27017/playerTracker', { 
     useNewUrlParser: true,
@@ -33,6 +34,17 @@ app.get('/players/:id', async (req, res) => {
     const {id} = req.params;
     const player = await Player.findById(id);
     res.render('players/details', {player})
+})
+
+app.get('/teams', async (req, res) => {
+    const teams = await Team.find({});
+    res.render('teams/index', {teams})
+})
+
+app.get('/teams/:id', async (req, res) => {
+    const {id} = req.params;
+    const team = await Team.findById(id);
+    res.render('teams/details', {team})
 })
 
 app.listen(3000, () => {
