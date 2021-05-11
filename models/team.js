@@ -8,6 +8,10 @@ const teamSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
+    },
+    stadiumName: {
+        type: String,
+        required: true
     }
 })
 
