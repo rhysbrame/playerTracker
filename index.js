@@ -19,6 +19,10 @@ db.once("open", () => {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs')
 
+app.get('/', (req, res) => {
+    res.render('home');
+})
+
 app.get('/players', async (req, res) => {
     const players = await Player.find({});
     res.render('players/index', {players})
