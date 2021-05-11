@@ -24,7 +24,14 @@ app.set('view engine', 'ejs')
 
 app.use(morgan('dev'));
 
+app.use((req, res, next) => {
+    req.requestTime = Date.now()
+    console.log("This is a middleware");
+    return next();
+})
+
 app.get('/', (req, res) => {
+    console.log(`Request date: ${req.requestTime}`)
     res.render('home');
 })
 
@@ -48,6 +55,10 @@ app.get('/teams/:id', async (req, res) => {
     const {id} = req.params;
     const team = await Team.findById(id);
     res.render('teams/details', {team})
+})
+
+app.use((req, res) => {
+    res.status(404).send('Not Found Page...');    
 })
 
 app.listen(3000, () => {
