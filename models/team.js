@@ -12,6 +12,10 @@ const teamSchema = new mongoose.Schema({
     stadiumName: {
         type: String,
         required: true
+    },
+    logoUrl: {
+        type: String,
+        required: true
     }
 })
 
