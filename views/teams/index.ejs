@@ -1,8 +1,22 @@
 <% layout('layouts/Boilerplate') %> 
 
-    <h1>All Teams</h1>
-    <ul>
-        <% for(let team of teams) { %>
-        <li><a href="/teams/<%=team._id%>"><%= team.name %></a></li>
-        <%}%>
-    </ul>
+<h1>All Teams</h1>
+
+<% for(let team of teams) { %>
+    <div class="card" mb-3>
+        <div class="row">
+            <div class="col-md-4">
+                <img class="img-fluid" src="<%= team.logoUrl %>" alt="">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title"><%= team.name %></h5>
+                    <p class="card-text"><%= team.stadiumName %></p>
+                    <a href="/teams/<%=team._id%>" class="btn btn-primary">View <%= team.name %></a>
+                </div>
+            </div>
+        </div>
+    </div>
+<%}%>
+
+

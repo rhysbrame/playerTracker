@@ -1,10 +1,15 @@
 <% layout('layouts/Boilerplate') %> 
 
-    <h1>Player Details</h1>
-    <ul>
-        <li>First Name: <%= player.firstname %> </li>
-        <li>Last Name: <%= player.lastname %> </li>
-        <li>Number: <%= player.number %> </li>
-        <li>Team: <%= player.team %> </li>
-        <img src="<%= player.photoUrl %>" alt="">
-    </ul> 
+<h1>Player Details</h1>
+<div class="card text-white bg-dark mb-3" style="width: 12rem;">
+    <img src="<%= player.photoUrl %>" class="card-img-top" alt="">
+    <div class="card-body">
+        <h5 class="card-title">
+            <%= player.firstname + " " + player.lastname %>
+        </h5>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Team: <%= player.team %></li>
+        <li class="list-group-item">No: <%= player.number %></li>
+    </ul>
+</div>

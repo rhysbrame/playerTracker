@@ -1,8 +1,23 @@
-<% layout('layouts/Boilerplate') %> 
+<% layout('layouts/Boilerplate') %>
 
-    <h1>All Players</h1>
-    <ul>
-        <% for(let player of players) { %>
-        <li><a href="/players/<%=player._id%>"><%= player.firstname + ' ' + player.lastname %></a></li>
-        <%}%>
-    </ul>
+<h1>All Players</h1>
+
+<% for(let player of players) { %>
+    <div class="card" mb-3>
+        <div class="row">
+            <div class="col-md-4">
+                <img class="img-fluid" src="<%= player.photoUrl %>" alt="">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title"><%= player.firstname + " " + player.lastname %></h5>
+                    <p class="card-text text-muted"><%= player.team %></p>
+                    <p class="card-text text-muted"><%= player.position %></p>
+                    <p class="card-text text-muted"><%= player.number %></p>
+                    <a href="/players/<%=player._id%>" class="btn btn-primary">View <%= player.firstname + " " + player.lastname %></a>
+                </div>
+            </div>
+        </div>
+    </div>
+<%}%>
+
