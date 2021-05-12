@@ -2,14 +2,18 @@
 
 <h1>Team Details</h1>
 
-<div class="card text-white bg-dark mb-3" style="width:12rem;">
-    <img src="<%= team.logoUrl %>" class="card-img-top" alt="">
-    <div class="card-body">
-        <h5 class="card-title">
-            <%= team.name %>
-        </h5>
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="card text-white bg-dark mb-3">
+            <img src="<%= team.logoUrl %>" class="card-img-top" alt="">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <%= team.name %>
+                </h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Stadium: <%= team.stadiumName %></li>
+            </ul>
+        </div>
     </div>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item">Stadium: <%= team.stadiumName %></li>
-    </ul>
 </div>
