@@ -4,6 +4,7 @@ const path = require('path');
 const morgan = require('morgan')
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate')
+const catchAsyncWrapper = require('./utilities/catchAsyncWrapper.js')
 
 const Player = require('./models/player');
 const Team = require('./models/team')
@@ -37,30 +38,34 @@ app.get('/', (req, res) => {
     res.render('home');
 })
 
-app.get('/players', async (req, res) => {
+app.get('/players', catchAsyncWrapper(async (req, res) => {
     const players = await Player.find({});
     res.render('players/index', {players})
-})
+}))
 
-app.get('/players/:id', async (req, res) => {
+app.get('/players/:id', catchAsyncWrapper(async (req, res) => {
     const {id} = req.params;
     const player = await Player.findById(id);
     res.render('players/details', {player})
-})
+}))
 
-app.get('/teams', async (req, res) => {
+app.get('/teams', catchAsyncWrapper(async (req, res) => {
     const teams = await Team.find({});
     res.render('teams/index', {teams})
-})
+}))
 
-app.get('/teams/:id', async (req, res) => {
+app.get('/teams/:id', catchAsyncWrapper(async (req, res) => {
     const {id} = req.params;
     const team = await Team.findById(id);
     res.render('teams/details', {team})
-})
+}))
 
 app.use((req, res) => {
-    res.status(404).send('Not Found Page...');    
+    res.status(404).send('Page Not Found...');    
+})
+
+app.use((err, req, res, next) => {
+    res.send('oh boy, something went wrong')
 })
 
 app.listen(3000, () => {
