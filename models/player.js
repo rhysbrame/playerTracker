@@ -13,11 +13,11 @@ const collegePlayerSchema = new mongoose.Schema({
         enum: [ 'C', 'CB', 'DB', 'DE', 'DE/LB', 'DL', 'DT', 'FB', 'FS', 'G', 'ILB', 'K', 'KR', 'LB', 'LS', 'NT', 'OL', 'OLB', 'OT', 'P', 'QB', 'RB', 'S', 'SS', 'T', 'TE', 'WR' ]
     },
     PositionCategory: { type: String, required: true },
-    Class: { type: String, required: true },
+    Class: { type: String },
     Height: { type: Number, required: true },
     Weight: { type: Number, required: true },
-    BirthCity: { type: String, required: true },
-    BirthState: { type: String, required: true },
+    BirthCity: { type: String },
+    BirthState: { type: String },
     GlobalTeamID: { type: Number, required: true },
     userFavourited: {
         type: Boolean,
