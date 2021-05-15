@@ -5,9 +5,11 @@ const morgan = require('morgan')
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate')
 const catchAsyncWrapper = require('./utilities/catchAsyncWrapper.js')
+const ExpressError = require('./utilities/ExpressError')
 
 const Player = require('./models/player');
-const Team = require('./models/team')
+const Team = require('./models/team');
+const { stat } = require('fs');
 
 mongoose.connect('mongodb://localhost:27017/playerTracker', { 
     useNewUrlParser: true,
@@ -60,12 +62,14 @@ app.get('/teams/:id', catchAsyncWrapper(async (req, res) => {
     res.render('teams/details', {team})
 }))
 
-app.use((req, res) => {
-    res.status(404).send('Page Not Found...');    
+app.all('*', (req, res, next) => {
+    next(new ExpressError('Page Not Found', 404))
 })
 
 app.use((err, req, res, next) => {
-    res.send('oh boy, something went wrong')
+    const { statusCode = 500 } = err;
+    if (!err.message) err.message = 'Oh, No. Something Went Wrong!'
+    res.status(statusCode).render('error', { err });
 })
 
 app.listen(3000, () => {
