@@ -10,7 +10,12 @@ const collegeTeamSchema = new mongoose.Schema({
     TeamLogoUrl: { type: String, required: true },
     ConferenceID: { type: Number },
     Conference: { type: String },
-    ShortDisplayName: { type: String, required: true }
+    ShortDisplayName: { type: String, required: true },
+    userFavourited: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
 })
 
 const Team = mongoose.model('Team', collegeTeamSchema)
