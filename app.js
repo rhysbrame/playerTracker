@@ -29,14 +29,7 @@ app.set('view engine', 'ejs')
 
 app.use(morgan('dev'));
 
-app.use((req, res, next) => {
-    req.requestTime = Date.now()
-    console.log("This is a middleware");
-    return next();
-})
-
 app.get('/', (req, res) => {
-    console.log(`Request date: ${req.requestTime}`)
     res.render('home');
 })
 
@@ -45,15 +38,27 @@ app.get('/players', catchAsyncWrapper(async (req, res) => {
     res.render('players/index', {players})
 }))
 
-app.get('/players/:id', catchAsyncWrapper(async (req, res) => {
+const getPlayer = catchAsyncWrapper( async (req, res, next) => {
     const {id} = req.params;
-    const player = await Player.findById(id);
-    res.render('players/details', {player})
-}))
+    res.locals.player = await Player.findById(id);
+    next();
+})
+
+const getTeamFromPlayer = catchAsyncWrapper( async (req, res, next) => {
+    const teamId = res.locals.player.TeamID;
+    const teamArray = await Team.find({TeamID: teamId});
+    res.locals.team = teamArray[0]
+    next();
+})
+
+app.get('/players/:id', getPlayer, getTeamFromPlayer, (req, res) => {
+    const { player, team } = res.locals;
+    res.render('players/details', { player, team } );
+})
 
 app.get('/teams', catchAsyncWrapper(async (req, res) => {
     const teams = await Team.find({});
-    res.render('teams/index', {teams})
+    res.render('teams/index', { teams })
 }))
 
 app.get('/teams/:id', catchAsyncWrapper(async (req, res) => {
