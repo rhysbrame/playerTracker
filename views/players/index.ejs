@@ -3,21 +3,24 @@
 <h1>All Players</h1>
 
 <% for(let player of players) { %>
-    <div class="card" mb-3>
-        <div class="row">
-            <div class="col-md-4">
-                <img class="img-fluid" src="<%= player.photoUrl %>" alt="">
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title"><%= player.FirstName + " " + player.LastName %></h5>
-                    <p class="card-text text-muted"><%= player.Team %></p>
-                    <p class="card-text text-muted"><%= player.Position %></p>
-                    <p class="card-text text-muted"><%= player.Jersey %></p>
-                    <a href="/players/<%=player._id%>" class="btn btn-primary">View <%= player.FirstName + " " + player.LastName %></a>
-                </div>
-            </div>
-        </div>
+<div class="card" mb-3>
+  <div class="row">
+    <div class="col-md-4">
+      <img class="img-fluid" src="<%= player.photoUrl %>" alt="" />
     </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">
+          <%= player.FirstName + " " + player.LastName %>
+        </h5>
+        <p class="card-text text-muted"><%= player.Team %></p>
+        <p class="card-text text-muted"><%= player.Position %></p>
+        <p class="card-text text-muted"><%= player.Jersey %></p>
+        <a href="/players/<%=player._id%>" class="btn btn-primary"
+          >View <%= player.FirstName + " " + player.LastName %></a
+        >
+      </div>
+    </div>
+  </div>
+</div>
 <%}%>
-

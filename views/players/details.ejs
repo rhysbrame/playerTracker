@@ -1,18 +1,18 @@
-<% layout('layouts/Boilerplate') %> 
+<% layout('layouts/Boilerplate') %>
 
 <h1>Player Details</h1>
 
 <div class="row">
-    <div class="col-6 offset-3">
-        <div class="card text-white bg-dark mb-3" >
-            <img src="<%= team.TeamLogoUrl %>" class="card-img-top" alt="">
-            <div class="card-body">
-                <h5 class="card-title">name: <%= player.FirstName %> </h5>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">Team: </li>
-                <li class="list-group-item">No: </li>
-            </ul>
-        </div>
+  <div class="col-6 offset-3">
+    <div class="card text-white bg-dark mb-3">
+      <img src="<%= team.TeamLogoUrl %>" class="card-img-top" alt="" />
+      <div class="card-body">
+        <h5 class="card-title">name: <%= player.FirstName %></h5>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Team:</li>
+        <li class="list-group-item">No:</li>
+      </ul>
     </div>
+  </div>
 </div>
