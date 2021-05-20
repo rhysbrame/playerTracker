@@ -7,11 +7,14 @@
     <div class="card text-white bg-dark mb-3">
       <img src="<%= team.TeamLogoUrl %>" class="card-img-top" alt="" />
       <div class="card-body">
-        <h5 class="card-title">name: <%= player.FirstName %></h5>
+        <h5 class="card-title">
+          <%= player.FirstName %> <%= player.LastName %>
+        </h5>
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">Team:</li>
-        <li class="list-group-item">No:</li>
+        <li class="list-group-item"><%= team.School %> - <%= team.Name %></li>
+        <li class="list-group-item">No: <%= player.Jersey %></li>
+        <li class="list-group-item">Position: <%= player.Position %></li>
       </ul>
     </div>
   </div>
