@@ -1,5 +1,5 @@
-<% layout('layouts/Boilerplate') %>
-
+<% layout('layouts/Boilerplate') %> <% console.log("**********************",
+team) %>
 <h1>Team Details</h1>
 <div class="row">
   <div class="col-6 offset-3">
@@ -46,6 +46,17 @@
         >
           Conference: <%= team.StadiumID %>
         </li>
+      </ul>
+      <ul>
+        <% for(let player of team.RosterPlayerIDs) { %>
+        <li
+          class="list-group-item"
+          style="background-color: rgb(<%= team.Swatches.LightMuted._rgb %>)"
+        >
+          <%= player.FirstName %> <%= player.LastName %> - <%= player.Position
+          %>
+        </li>
+        <% } %>
       </ul>
     </div>
   </div>
