@@ -17,15 +17,20 @@ db.once('open', () => {
 });
 
 const masterSeedDB = async () => {
-  await Player.deleteMany({});
-  for (const player of playerSeeds) {
-    const p = new Player(player);
-    await p.save();
-  }
   await Team.deleteMany({});
   for (const team of teamSeeds) {
     const t = new Team(team);
     await t.save();
+  }
+  await Player.deleteMany({});
+  for (const player of playerSeeds) {
+    const p = new Player(player);
+    const { TeamID } = player;
+    const team = await Team.findOne({ TeamID });
+    team.RosterPlayerIDs.push(p);
+    p.PlayerTeamID = team;
+    await p.save();
+    await team.save();
   }
 };
 

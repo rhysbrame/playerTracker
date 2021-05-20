@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-const collegeTeamSchema = new mongoose.Schema({
+const collegeTeamSchema = new Schema({
   TeamID: { type: Number, required: true },
   Key: { type: String, required: true },
   School: { type: String, required: true },
@@ -11,11 +12,12 @@ const collegeTeamSchema = new mongoose.Schema({
   ConferenceID: { type: Number },
   Conference: { type: String },
   ShortDisplayName: { type: String, required: true },
-  userFavourited: {
+  UserFavourited: {
     type: Boolean,
     required: true,
     default: false,
   },
+  RosterPlayerIDs: [{ type: Schema.Types.ObjectId, ref: 'Player' }],
 });
 
 const Team = mongoose.model('Team', collegeTeamSchema);
