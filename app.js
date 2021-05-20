@@ -72,12 +72,8 @@ app.get(
   '/teams/:id',
   catchAsyncWrapper(async (req, res) => {
     const { id } = req.params;
-    const team = await Team.findById(id);
-    const swatches = await Vibrant.from(`${team.TeamLogoUrl}`).getSwatches();
-    for (let swatch in swatches)
-      if (swatches.hasOwnProperty(swatch) && swatches[swatch])
-        console.log(swatch, swatches[swatch].toJSON());
-    res.render('teams/details', { team, swatches });
+    const team = await Team.findById(id).populate('RosterPlayerIDs');
+    res.render('teams/details', { team });
   })
 );
 

@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Vibrant = require('node-vibrant');
+
 const Player = require('../models/player');
 const Team = require('../models/team');
 const { playerSeeds } = require('./playerSeeds');
@@ -18,8 +20,13 @@ db.once('open', () => {
 
 const masterSeedDB = async () => {
   await Team.deleteMany({});
+  let counter = 0;
   for (const team of teamSeeds) {
+    counter++;
     const t = new Team(team);
+    const swatches = await Vibrant.from(`${team.TeamLogoUrl}`).getSwatches();
+    console.log('***swatches***', counter);
+    t.Swatches = swatches;
     await t.save();
   }
   await Player.deleteMany({});

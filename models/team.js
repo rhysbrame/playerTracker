@@ -18,6 +18,26 @@ const collegeTeamSchema = new Schema({
     default: false,
   },
   RosterPlayerIDs: [{ type: Schema.Types.ObjectId, ref: 'Player' }],
+  Swatches: {
+    Vibrant: {
+      _rgb: [{ type: Number }, { type: Number }, { type: Number }],
+    },
+    DarkVibrant: {
+      _rgb: [{ type: Number }, { type: Number }, { type: Number }],
+    },
+    LightVibrant: {
+      _rgb: [{ type: Number }, { type: Number }, { type: Number }],
+    },
+    Muted: {
+      _rgb: [{ type: Number }, { type: Number }, { type: Number }],
+    },
+    DarkMuted: {
+      _rgb: [{ type: Number }, { type: Number }, { type: Number }],
+    },
+    LightMuted: {
+      _rgb: [{ type: Number }, { type: Number }, { type: Number }],
+    },
+  },
 });
 
 const Team = mongoose.model('Team', collegeTeamSchema);

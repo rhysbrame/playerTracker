@@ -5,15 +5,47 @@
   <div class="col-6 offset-3">
     <div class="card mb-3">
       <img src="<%= team.TeamLogoUrl %>" class="card-img-top" alt="" />
-      <div
-        class="card-body"
-        style="background-color: rgb(<%= swatches.Vibrant._rgb %>)"
-      >
+      <div class="card-body">
         <h5 class="card-title"><%= team.School %></h5>
         <h5 class="card-title"><%= team.Name %></h5>
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">Conference: <%= team.Conference %></li>
+        <li
+          class="list-group-item"
+          style="background-color: rgb(<%= team.Swatches.Muted._rgb %>)"
+        >
+          Conference: <%= team.ShortDisplayName %>
+        </li>
+        <li
+          class="list-group-item"
+          style="background-color: rgb(<%= team.Swatches.DarkMuted._rgb %>)"
+        >
+          SDN: <%= team.Conference %>
+        </li>
+        <li
+          class="list-group-item"
+          style="background-color: rgb(<%= team.Swatches.LightMuted._rgb %>)"
+        >
+          Conference: <%= team.StadiumID %>
+        </li>
+        <li
+          class="list-group-item"
+          style="background-color: rgb(<%= team.Swatches.Vibrant._rgb %>)"
+        >
+          Conference: <%= team.ShortDisplayName %>
+        </li>
+        <li
+          class="list-group-item"
+          style="background-color: rgb(<%= team.Swatches.DarkVibrant._rgb %>)"
+        >
+          SDN: <%= team.Conference %>
+        </li>
+        <li
+          class="list-group-item"
+          style="background-color: rgb(<%= team.Swatches.LightVibrant._rgb %>)"
+        >
+          Conference: <%= team.StadiumID %>
+        </li>
       </ul>
     </div>
   </div>
