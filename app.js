@@ -1,16 +1,16 @@
 const express = require('express');
-const app = express();
 const path = require('path');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
-const catchAsyncWrapper = require('./utilities/catchAsyncWrapper.js');
 const ExpressError = require('./utilities/ExpressError');
-const Vibrant = require('node-vibrant');
+const { stat } = require('fs');
 
+const catchAsyncWrapper = require('./utilities/catchAsyncWrapper.js');
 const Player = require('./models/player');
 const Team = require('./models/team');
-const { stat } = require('fs');
+
+const app = express();
 
 mongoose.connect('mongodb://localhost:27017/playerTracker', {
   useNewUrlParser: true,
