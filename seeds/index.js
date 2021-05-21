@@ -25,7 +25,7 @@ const masterSeedDB = async () => {
     counter++;
     const t = new Team(team);
     const swatches = await Vibrant.from(`${team.TeamLogoUrl}`).getSwatches();
-    console.log('Number of team swatches from 252', counter);
+    console.log(counter, '/252 Number of team swatches');
     t.Swatches = swatches;
     await t.save();
   }
