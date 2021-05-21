@@ -3,14 +3,14 @@ const path = require('path');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
-const ExpressError = require('./utilities/ExpressError');
 const { stat } = require('fs');
+const methodOverride = require('method-override');
 
+const ExpressError = require('./utilities/ExpressError');
 const catchAsyncWrapper = require('./utilities/catchAsyncWrapper.js');
 const Player = require('./models/player');
 const Team = require('./models/team');
-
-const app = express();
+const Review = require('./models/review');
 
 mongoose.connect('mongodb://localhost:27017/playerTracker', {
   useNewUrlParser: true,
@@ -24,23 +24,19 @@ db.once('open', () => {
   console.log('Database connected');
 });
 
+const app = express();
+
 app.engine('ejs', ejsMate);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(morgan('dev'));
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 
 app.get('/', (req, res) => {
   res.render('home');
 });
-
-app.get(
-  '/players',
-  catchAsyncWrapper(async (req, res) => {
-    const players = await Player.find({});
-    res.render('players/index', { players });
-  })
-);
 
 const getPlayer = catchAsyncWrapper(async (req, res, next) => {
   const { id } = req.params;
@@ -55,10 +51,33 @@ const getTeamFromPlayer = catchAsyncWrapper(async (req, res, next) => {
   next();
 });
 
+app.get(
+  '/players',
+  catchAsyncWrapper(async (req, res) => {
+    const players = await Player.find({});
+    res.render('players/index', { players });
+  })
+);
+
 app.get('/players/:id', getPlayer, getTeamFromPlayer, (req, res) => {
   const { player, team } = res.locals;
   res.render('players/details', { player, team });
 });
+
+app.post(
+  '/players/:id/reviews',
+  catchAsyncWrapper(async (req, res) => {
+    const player = await Player.findById(req.params.id);
+    console.log(player);
+    console.log(req.body);
+    const review = new Review(req.body.review);
+    console.log(review);
+    player.Reviews.push(review);
+    await review.save();
+    await player.save();
+    res.redirect(`/players/${player._id}`);
+  })
+);
 
 app.get(
   '/teams',

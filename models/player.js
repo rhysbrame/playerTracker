@@ -54,6 +54,12 @@ const collegePlayerSchema = new Schema({
     default: false,
   },
   PlayerTeamID: { type: Schema.Types.ObjectId, ref: 'Team' },
+  Reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Review',
+    },
+  ],
 });
 
 const Player = mongoose.model('Player', collegePlayerSchema);
