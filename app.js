@@ -88,6 +88,16 @@ app.post(
   })
 );
 
+app.delete(
+  '/players/:id/reviews/:reviewId',
+  catchAsyncWrapper(async (req, res) => {
+    const { id, reviewId } = req.params;
+    await Player.findByIdAndUpdate(id, { $pull: { Reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/players/${id}`);
+  })
+);
+
 app.get(
   '/teams',
   catchAsyncWrapper(async (req, res) => {

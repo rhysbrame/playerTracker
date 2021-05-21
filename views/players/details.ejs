@@ -66,9 +66,17 @@
     </form>
     <% for(let review of player.Reviews) {%>
     <div class="card mb-3">
-      <h5 class="card-title">Rating: <%= review.Rating %> Stars</h5>
-      <p class="card-text"><%= review.Body %></p>
-      <div class="card-title"><%= review.Username %></div>
+      <div class="card-body">
+        <h5 class="card-title">Rating: <%= review.Rating %> Stars</h5>
+        <p class="card-text"><%= review.Body %></p>
+        <p class="card-title"><%= review.Username %></p>
+        <form
+          action="/players/<%=player._id%>/reviews/<%=review._id%>?_method=DELETE"
+          method="POST"
+        >
+          <button class="btn btn-sm btn-danger">Delete</button>
+        </form>
+      </div>
     </div>
     <% } %>
   </div>
