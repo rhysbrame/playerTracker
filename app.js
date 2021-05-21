@@ -11,6 +11,7 @@ const catchAsyncWrapper = require('./utilities/catchAsyncWrapper.js');
 const Player = require('./models/player');
 const Team = require('./models/team');
 const Review = require('./models/review');
+const { reviewSchema } = require('./schemas');
 
 mongoose.connect('mongodb://localhost:27017/playerTracker', {
   useNewUrlParser: true,
@@ -40,7 +41,7 @@ app.get('/', (req, res) => {
 
 const getPlayer = catchAsyncWrapper(async (req, res, next) => {
   const { id } = req.params;
-  res.locals.player = await Player.findById(id);
+  res.locals.player = await Player.findById(id).populate('Reviews');
   next();
 });
 
@@ -50,6 +51,16 @@ const getTeamFromPlayer = catchAsyncWrapper(async (req, res, next) => {
   res.locals.team = teamArray[0];
   next();
 });
+
+const validateReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(',');
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
 
 app.get(
   '/players',
@@ -66,12 +77,10 @@ app.get('/players/:id', getPlayer, getTeamFromPlayer, (req, res) => {
 
 app.post(
   '/players/:id/reviews',
+  validateReview,
   catchAsyncWrapper(async (req, res) => {
     const player = await Player.findById(req.params.id);
-    console.log(player);
-    console.log(req.body);
     const review = new Review(req.body.review);
-    console.log(review);
     player.Reviews.push(review);
     await review.save();
     await player.save();

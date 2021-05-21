@@ -3,7 +3,7 @@
 <h1>Player Details</h1>
 
 <div class="row">
-  <div class="col-6 offset-3">
+  <div class="col-6">
     <div class="card text-white bg-dark mb-3">
       <img src="<%= team.TeamLogoUrl %>" class="card-img-top" alt="" />
       <div class="card-body">
@@ -17,6 +17,8 @@
         <li class="list-group-item">Position: <%= player.Position %></li>
       </ul>
     </div>
+  </div>
+  <div class="col-6">
     <h3>Reviews</h3>
     <form
       action="/players/<%= player._id %>/reviews"
@@ -25,29 +27,49 @@
       novalidate
     >
       <div class="mb-3">
-        <label for="rating" class="form-label">Rating</label>
         <input
           type="range"
           min="1"
           max="5"
-          name="review[rating]"
+          name="review[Rating]"
           id="rating"
           class="form-range"
         />
+        <label for="rating" class="form-label">Rating</label>
       </div>
-      <div class="mb-3">
-        <label for="body" class="form-label">Review</label>
+      <div class="form-floating mb-3">
         <textarea
           class="form-control"
-          name="review[body]"
+          name="review[Body]"
           id="body"
           cols="30"
-          rows="1"
+          style="height: 100px"
+          placeholder="Leave a review here"
           required
         ></textarea>
+        <label for="body" class="form-label">Review...</label>
         <div class="valid-feedback">Looks Good!</div>
+      </div>
+      <div class="input-group flex-nowrap mb-3">
+        <span class="input-group-text" id="addon-wrapping" for>@</span>
+        <input
+          type="text"
+          class="form-control"
+          name="review[Username]"
+          placeholder="Username"
+          aria-label="Username"
+          aria-describedby="addon-wrapping"
+          required
+        />
       </div>
       <button class="btn btn-success">Submit</button>
     </form>
+    <% for(let review of player.Reviews) {%>
+    <div class="card mb-3">
+      <h5 class="card-title">Rating: <%= review.Rating %> Stars</h5>
+      <p class="card-text"><%= review.Body %></p>
+      <div class="card-title"><%= review.Username %></div>
+    </div>
+    <% } %>
   </div>
 </div>
