@@ -53,6 +53,7 @@ router.post(
     player.Reviews.push(review);
     await review.save();
     await player.save();
+    req.flash('success', 'Succesfully created a new review');
     res.redirect(`/players/${player._id}`);
   })
 );
