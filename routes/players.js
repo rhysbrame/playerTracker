@@ -64,6 +64,7 @@ router.delete(
     const { id, reviewId } = req.params;
     await Player.findByIdAndUpdate(id, { $pull: { Reviews: reviewId } });
     await Review.findByIdAndDelete(reviewId);
+    req.flash('success', 'You succesfully deleted the post');
     res.redirect(`/players/${id}`);
   })
 );
