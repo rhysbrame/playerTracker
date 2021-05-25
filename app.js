@@ -3,7 +3,6 @@ const path = require('path');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
-const { stat } = require('fs');
 const methodOverride = require('method-override');
 
 const ExpressError = require('./utilities/ExpressError');
