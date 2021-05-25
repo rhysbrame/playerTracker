@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
+const session = require('express-session');
 
 const ExpressError = require('./utilities/ExpressError');
 
@@ -34,12 +35,24 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res) => {
-  res.render('home');
-});
+const sessionConfig = {
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    expires: Date.now() + 1000 * 60 * 60 * 7,
+    maxAge: 1000 * 60 * 60 * 7,
+  },
+};
+app.use(session(sessionConfig));
 
 app.use('/teams', teams);
 app.use('/players', players);
+
+app.get('/', (req, res) => {
+  res.render('home');
+});
 
 app.all('*', (req, res, next) => {
   next(new ExpressError('Page Not Found', 404));
