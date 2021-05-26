@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const ObjectID = require('mongodb').ObjectID;
 
 const catchAsyncWrapper = require('../utilities/catchAsyncWrapper.js');
 const ExpressError = require('../utilities/ExpressError');
@@ -10,7 +11,15 @@ const { reviewSchema } = require('../schemas');
 
 const getPlayer = catchAsyncWrapper(async (req, res, next) => {
   const { id } = req.params;
+  if (!ObjectID.isValid(id)) {
+    req.flash('error', 'Could not find that player, Invalid ID!');
+    res.redirect('/players/');
+  }
   res.locals.player = await Player.findById(id).populate('Reviews');
+  if (!res.locals.player) {
+    req.flash('error', 'Could not find that player!');
+    res.redirect('/players/');
+  }
   next();
 });
 
