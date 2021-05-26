@@ -6,11 +6,15 @@ const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
 
 const ExpressError = require('./utilities/ExpressError');
 
-const teams = require('./routes/teams');
-const players = require('./routes/players');
+const userRoutes = require('./routes/users');
+const teamRoutes = require('./routes/teams');
+const playerRoutes = require('./routes/players');
 
 mongoose.connect('mongodb://localhost:27017/playerTracker', {
   useNewUrlParser: true,
@@ -28,8 +32,8 @@ db.once('open', () => {
 const app = express();
 
 app.engine('ejs', ejsMate);
-app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
@@ -49,14 +53,22 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
   next();
 });
 
-app.use('/teams', teams);
-app.use('/players', players);
+app.use('/', userRoutes);
+app.use('/teams', teamRoutes);
+app.use('/players', playerRoutes);
 
 app.get('/', (req, res) => {
   res.render('home');
