@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const ObjectID = require('mongodb').ObjectID;
-const ExpressError = require('../utilities/ExpressError');
 
 const catchAsyncWrapper = require('../utilities/catchAsyncWrapper.js');
 const Team = require('../models/team');
