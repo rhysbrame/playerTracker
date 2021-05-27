@@ -15,8 +15,11 @@ router.post(
       const { email, username, password } = req.body;
       const user = new User({ email, username });
       const registeredUser = await User.register(user, password);
-      req.flash('success', 'Welcome!!');
-      res.redirect('/teams');
+      req.login(registeredUser, (err) => {
+        if (err) return next(err);
+        req.flash('success', 'Welcome!!');
+        res.redirect('/');
+      });
     } catch (e) {
       req.flash('error', e.message);
       res.redirect('/register');
@@ -36,8 +39,15 @@ router.post(
   }),
   (req, res) => {
     req.flash('success', 'Welcome back you!');
-    res.redirect('/teams');
+    const redirectUrl = req.session.returnTo || '/teams';
+    res.redirect(redirectUrl);
   }
 );
+
+router.get('/logout', (req, res) => {
+  req.logout();
+  req.flash('success', 'You have signed out!');
+  res.redirect('/');
+});
 
 module.exports = router;

@@ -4,6 +4,7 @@ const ObjectID = require('mongodb').ObjectID;
 
 const catchAsyncWrapper = require('../utilities/catchAsyncWrapper.js');
 const ExpressError = require('../utilities/ExpressError');
+const { isLoggedIn } = require('../utilities/middleware');
 const Team = require('../models/team');
 const Player = require('../models/player');
 const Review = require('../models/review');
@@ -13,12 +14,12 @@ const getPlayer = catchAsyncWrapper(async (req, res, next) => {
   const { id } = req.params;
   if (!ObjectID.isValid(id)) {
     req.flash('error', 'Could not find that player, Invalid ID!');
-    res.redirect('/players/');
+    return res.redirect('/players/');
   }
   res.locals.player = await Player.findById(id).populate('Reviews');
   if (!res.locals.player) {
     req.flash('error', 'Could not find that player!');
-    res.redirect('/players/');
+    return res.redirect('/players/');
   }
   next();
 });
@@ -48,7 +49,7 @@ router.get(
   })
 );
 
-router.get('/:id', getPlayer, getTeamFromPlayer, (req, res) => {
+router.get('/:id', isLoggedIn, getPlayer, getTeamFromPlayer, (req, res) => {
   const { player, team } = res.locals;
   res.render('players/details', { player, team });
 });
