@@ -15,6 +15,7 @@ const ExpressError = require('./utilities/ExpressError');
 const userRoutes = require('./routes/users');
 const teamRoutes = require('./routes/teams');
 const playerRoutes = require('./routes/players');
+const reviewRoutes = require('./routes/reviews');
 
 mongoose.connect('mongodb://localhost:27017/playerTracker', {
   useNewUrlParser: true,
@@ -73,6 +74,7 @@ app.use((req, res, next) => {
 app.use('/', userRoutes);
 app.use('/teams', teamRoutes);
 app.use('/players', playerRoutes);
+app.use('/players/:id/reviews', reviewRoutes);
 
 app.get('/', (req, res) => {
   res.render('home');
