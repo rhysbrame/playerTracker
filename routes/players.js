@@ -13,7 +13,13 @@ const getPlayer = catchAsyncWrapper(async (req, res, next) => {
     req.flash('error', 'Could not find that player, Invalid ID!');
     return res.redirect('/players/');
   }
-  res.locals.player = await Player.findById(id).populate('Reviews');
+  res.locals.player = await Player.findById(id).populate({
+    path: 'Reviews',
+    populate: {
+      path: 'Author',
+    },
+  });
+  console.log('**route**', res.locals.player);
   if (!res.locals.player) {
     req.flash('error', 'Could not find that player!');
     return res.redirect('/players/');

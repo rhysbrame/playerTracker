@@ -1,7 +1,5 @@
 <% layout('layouts/Boilerplate') %>
-
 <h1>Player Details</h1>
-
 <div class="row">
   <div class="col-6">
     <div class="card text-white bg-dark mb-3">
@@ -44,23 +42,10 @@
           id="body"
           cols="30"
           style="height: 100px"
-          placeholder="Leave a review here"
           required
         ></textarea>
         <label for="body" class="form-label">Review...</label>
         <div class="valid-feedback">Looks Good!</div>
-      </div>
-      <div class="input-group flex-nowrap mb-3">
-        <span class="input-group-text" id="addon-wrapping" for>@</span>
-        <input
-          type="text"
-          class="form-control"
-          name="review[Username]"
-          placeholder="Username"
-          aria-label="Username"
-          aria-describedby="addon-wrapping"
-          required
-        />
       </div>
       <button class="btn btn-success">Submit</button>
     </form>
@@ -69,7 +54,7 @@
       <div class="card-body">
         <h5 class="card-title">Rating: <%= review.Rating %> Stars</h5>
         <p class="card-text"><%= review.Body %></p>
-        <p class="card-title"><%= review.Username %></p>
+        <p class="card-title"><%= review.Author.username %></p>
         <form
           action="/players/<%=player._id%>/reviews/<%=review._id%>?_method=DELETE"
           method="POST"

@@ -22,6 +22,7 @@ router.post(
   catchAsyncWrapper(async (req, res) => {
     const player = await Player.findById(req.params.id);
     const review = new Review(req.body.review);
+    review.Author = req.user._id;
     player.Reviews.push(review);
     await review.save();
     await player.save();
