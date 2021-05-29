@@ -1,7 +1,7 @@
 <% layout('layouts/Boilerplate') %>
 <h1>Player Details</h1>
 <div class="row">
-  <div class="col-6">
+  <div class="col-3">
     <div class="card text-white bg-dark mb-3">
       <img src="<%= team.TeamLogoUrl %>" class="card-img-top" alt="" />
       <div class="card-body">
@@ -16,7 +16,7 @@
       </ul>
     </div>
   </div>
-  <div class="col-6">
+  <div class="col-3">
     <h3>Reviews</h3>
     <form
       action="/players/<%= player._id %>/reviews"
@@ -55,12 +55,14 @@
         <h5 class="card-title">Rating: <%= review.Rating %> Stars</h5>
         <p class="card-text"><%= review.Body %></p>
         <p class="card-title"><%= review.Author.username %></p>
+        <% if( currentUser && review.Author._id.equals(currentUser._id)){ %>
         <form
           action="/players/<%=player._id%>/reviews/<%=review._id%>?_method=DELETE"
           method="POST"
         >
           <button class="btn btn-sm btn-danger">Delete</button>
         </form>
+        <% } %>
       </div>
     </div>
     <% } %>
