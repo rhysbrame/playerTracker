@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
 const { reviewSchema } = require('../schemas');
+const { isLoggedIn, isReviewAuthor } = require('../utilities/middleware');
 const Review = require('../models/review');
 const Player = require('../models/player');
 const ExpressError = require('../utilities/ExpressError');
@@ -18,6 +19,7 @@ const validateReview = (req, res, next) => {
 
 router.post(
   '/',
+  isLoggedIn,
   validateReview,
   catchAsyncWrapper(async (req, res) => {
     const player = await Player.findById(req.params.id);
@@ -33,6 +35,8 @@ router.post(
 
 router.delete(
   '/:reviewId',
+  isLoggedIn,
+  isReviewAuthor,
   catchAsyncWrapper(async (req, res) => {
     const { id, reviewId } = req.params;
     await Player.findByIdAndUpdate(id, { $pull: { Reviews: reviewId } });

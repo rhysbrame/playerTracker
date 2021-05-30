@@ -19,7 +19,6 @@ const getPlayer = catchAsyncWrapper(async (req, res, next) => {
       path: 'Author',
     },
   });
-  console.log('**route**', res.locals.player);
   if (!res.locals.player) {
     req.flash('error', 'Could not find that player!');
     return res.redirect('/players/');
