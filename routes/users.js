@@ -4,20 +4,21 @@ const passport = require('passport');
 const catchAsyncWrapper = require('../utilities/catchAsyncWrapper.js');
 const users = require('../controllers/users.js');
 
-router.get('/register', users.renderRegister);
+router
+  .route('/register')
+  .get(users.renderRegister)
+  .post(catchAsyncWrapper(users.register));
 
-router.post('/register', catchAsyncWrapper(users.register));
-
-router.get('/login', users.renderLogin);
-
-router.post(
-  '/login',
-  passport.authenticate('local', {
-    faliureRedirect: '/login',
-    failureFlash: true,
-  }),
-  users.login
-);
+router
+  .route('/login')
+  .get(users.renderLogin)
+  .post(
+    passport.authenticate('local', {
+      faliureRedirect: '/login',
+      failureFlash: true,
+    }),
+    users.login
+  );
 
 router.get('/logout', users.logout);
 
