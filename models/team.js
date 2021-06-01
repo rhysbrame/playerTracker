@@ -38,8 +38,7 @@ const collegeTeamSchema = new Schema({
       _rgb: [{ type: Number }, { type: Number }, { type: Number }],
     },
   },
+  StadiumData: { type: Schema.Types.ObjectId, ref: 'Stadium' },
 });
 
-const Team = mongoose.model('Team', collegeTeamSchema);
-
-module.exports = Team;
+module.exports = mongoose.model('Team', collegeTeamSchema);

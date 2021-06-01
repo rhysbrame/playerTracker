@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
 const Vibrant = require('node-vibrant');
 
-const Player = require('../models/player');
+const Stadium = require('../models/stadium');
 const Team = require('../models/team');
-const { playerSeeds } = require('./playerSeeds');
+const Player = require('../models/player');
+const { stadiaSeeds } = require('./stadiaSeeds');
 const { teamSeeds } = require('./teamSeeds');
+const { playerSeeds } = require('./playerSeeds');
 
 mongoose.connect('mongodb://localhost:27017/playerTracker', {
   useNewUrlParser: true,
@@ -19,11 +21,19 @@ db.once('open', () => {
 });
 
 const masterSeedDB = async () => {
+  await Stadium.deleteMany({});
+  for (const stadium of stadiaSeeds) {
+    const s = new Stadium(stadium);
+    await s.save();
+  }
   await Team.deleteMany({});
   let counter = 0;
   for (const team of teamSeeds) {
     counter++;
     const t = new Team(team);
+    const { StadiumID } = team;
+    const teamStadium = await Stadium.findOne({ StadiumID });
+    t.StadiumData = teamStadium;
     const swatches = await Vibrant.from(`${team.TeamLogoUrl}`).getSwatches();
     console.log(counter, '/252 Number of team swatches');
     t.Swatches = swatches;

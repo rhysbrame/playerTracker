@@ -2,7 +2,8 @@ const Team = require('../models/team');
 const ObjectID = require('mongodb').ObjectID;
 
 module.exports.index = async (req, res) => {
-  const teams = await Team.find({});
+  const teams = await Team.find({}).populate('StadiumData');
+  console.log('************');
   res.render('teams/index', { teams });
 };
 
