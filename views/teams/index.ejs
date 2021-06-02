@@ -12,9 +12,12 @@
     </div>
     <div class="col-md-4">
       <div class="card-body">
-        <h5 class="card-title"><%= team.Name %> <%= team.Key %></h5>
+        <h5 class="card-title"><%= team.Name %></h5>
         <h5 class="card-text"><%= team.School %></h5>
         <p class="card-text"><%= team.Conference %></p>
+        <% if(team.StadiumData) { %>
+        <p class="card-text">Stadium: <%= team.StadiumData.Name %></p>
+        <% } %>
         <a href="/teams/<%=team._id%>" class="btn btn-primary"
           >View <%= team.name %></a
         >
