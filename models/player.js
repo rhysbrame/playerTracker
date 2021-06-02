@@ -62,6 +62,8 @@ const collegePlayerSchema = new Schema({
   ],
 });
 
-const Player = mongoose.model('Player', collegePlayerSchema);
+collegePlayerSchema.virtual('FullName').get(function () {
+  return `${this.FirstName} ${this.LastName}`;
+});
 
-module.exports = Player;
+module.exports = mongoose.model('Player', collegePlayerSchema);
