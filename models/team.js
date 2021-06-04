@@ -39,6 +39,27 @@ const collegeTeamSchema = new Schema({
     },
   },
   StadiumData: { type: Schema.Types.ObjectId, ref: 'Stadium' },
+  type: { type: String, default: 'Feature' },
+  geometry: {
+    type: {
+      type: String,
+      enum: ['Point'],
+      required: true,
+      default: 'Point',
+    },
+    coordinates: {
+      type: [Number],
+      required: true,
+    },
+  },
+});
+
+collegeTeamSchema.virtual('Coordinates').get(function () {
+  const geometryObject = {
+    type: 'Point',
+    coordinates: [this.StadiumData.GeoLong, this.StadiumData.GeoLat],
+  };
+  return geometryObject;
 });
 
 module.exports = mongoose.model('Team', collegeTeamSchema);
