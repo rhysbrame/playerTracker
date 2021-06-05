@@ -11,6 +11,7 @@ module.exports.index = async (req, res) => {
 
 module.exports.details = async (req, res) => {
   const { player, team } = res.locals;
+  const teamName = team.Name;
   const playerLocation = player.BirthCity + ', ' + player.BirthState;
   const geoData = await geocoder
     .forwardGeocode({
@@ -20,5 +21,5 @@ module.exports.details = async (req, res) => {
     })
     .send();
   const geometry = geoData.body.features[0].geometry;
-  res.render('players/details', { player, team, geometry });
+  res.render('players/details', { player, team, teamName, geometry });
 };

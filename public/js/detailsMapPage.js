@@ -1,6 +1,6 @@
 const playerLocation = JSON.parse(geometry);
 const playerObject = JSON.parse(player);
-const teamObject = JSON.parse(team);
+const teamNameObj = JSON.parse(teamName);
 
 mapboxgl.accessToken = mapToken;
 
@@ -15,7 +15,7 @@ new mapboxgl.Marker()
   .setLngLat(playerLocation.coordinates)
   .setPopup(
     new mapboxgl.Popup({ offset: 25 }).setHTML(
-      `<h3>${playerObject.FirstName} ${playerObject.LastName}</h3><p>${teamObject.Name}</p>`
+      `<h3>${playerObject.FirstName} ${playerObject.LastName}</h3><p>${teamNameObj}</p>`
     )
   )
   .addTo(map);
