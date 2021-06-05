@@ -17,20 +17,14 @@ module.exports.index = async (req, res) => {
     // }
   ).populate('StadiumData');
   for (let team of teams) {
-    console.log('*******loopout', team.Name);
     if (team.StadiumData) {
       newArray.push(team);
-      console.log('*******loop', team.Name);
       const stadiumGeometry = team.Coordinates;
       team.geometry = stadiumGeometry;
       await team.save();
     }
   }
-  console.log('****', newArray.length);
-  console.log('****', teams.length);
   teams = newArray;
-  // teams.length = 200;
-  console.log('**final_teams**', teams);
   res.render('teams/index', { teams });
 };
 
