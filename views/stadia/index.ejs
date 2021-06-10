@@ -1,0 +1,16 @@
+<% layout('layouts/Boilerplate') %>
+
+<h1>All Stadia</h1>
+<% for(let stadium of stadia) { %>
+<div class="card" mb-3>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card-body">
+        <h5 class="card-title"><%= stadium.Name %></h5>
+        <h5 class="card-text"><%= stadium.City %></h5>
+        <h5 class="card-text"><%= stadium.State %></h5>
+      </div>
+    </div>
+  </div>
+</div>
+<%}%>
