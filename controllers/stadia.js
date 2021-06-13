@@ -9,3 +9,10 @@ module.exports.index = async (req, res) => {
   }
   res.render('stadia/index', { stadia });
 };
+
+module.exports.details = async (req, res, next) => {
+  const { id } = req.params;
+  const stadium = await Stadium.findById(id);
+  const coords = await stadium.Coordinates;
+  res.render('stadia/details', { stadium, coords });
+};
