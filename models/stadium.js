@@ -41,7 +41,10 @@ stadiumSchema.virtual('Coordinates').get(function () {
 stadiumSchema.virtual('properties.popUpMarkup').get(function () {
   return `
   <strong>
-    <a href="/stadia/${this._id}">${this.Name}- ${this.City}, ${this.State}</a>
+    <a href="/stadia/${this._id}">
+      <h5>${this.Name}</h5>
+      <p>${this.City}, ${this.State}</p>
+    </a>
   <strong>
   `;
 });

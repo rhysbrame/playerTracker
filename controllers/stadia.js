@@ -12,7 +12,6 @@ module.exports.index = async (req, res) => {
 
 module.exports.details = async (req, res, next) => {
   const { id } = req.params;
-  const stadium = await Stadium.findById(id);
-  const coords = await stadium.Coordinates;
-  res.render('stadia/details', { stadium, coords });
+  const stadium = await Stadium.findById(id).lean();
+  res.render('stadia/details', { stadium });
 };

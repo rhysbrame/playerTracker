@@ -1,16 +1,22 @@
-// const stadiumObject = JSON.parse(stadium);
-const stadiumLocation = JSON.parse(coords);
-
+const stadiumObject = JSON.parse(stadiumObj);
+console.log(stadiumObject);
 mapboxgl.accessToken = mapToken;
 
 const map = new mapboxgl.Map({
   container: 'map', // container ID
   style: 'mapbox://styles/mapbox/light-v10', // style URL
-  center: stadiumLocation.coordinates, // starting position [lng, lat]
+  center: stadiumObject.geometry.coordinates, // starting position [lng, lat]
   zoom: 9, // starting zoom
 });
 
 new mapboxgl.Marker()
-  .setLngLat(stadiumLocation.coordinates)
-  .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML('<h5>Team Stadium</h5>'))
+  .setLngLat(stadiumObject.geometry.coordinates)
+  .setPopup(
+    new mapboxgl.Popup({ offset: 25 }).setHTML(
+      `
+      <h3>${stadiumObject.Name}</h3>
+      <h5>${stadiumObject.City}, ${stadiumObject.State}</h5>
+      `
+    )
+  )
   .addTo(map);
