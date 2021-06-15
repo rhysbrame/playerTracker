@@ -3,6 +3,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const express = require('express');
+const mongoSanitize = require('express-mongo-sanitize');
 const path = require('path');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
@@ -45,6 +46,7 @@ app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(mongoSanitize());
 
 const sessionConfig = {
   secret: 'secret',
