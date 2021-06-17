@@ -3,47 +3,32 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const express = require('express');
-const mongoSanitize = require('express-mongo-sanitize');
 const path = require('path');
-const morgan = require('morgan');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
-const methodOverride = require('method-override');
+const morgan = require('morgan');
 const session = require('express-session');
 const flash = require('connect-flash');
+const ExpressError = require('./utilities/ExpressError');
+const methodOverride = require('method-override');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
-
-const ExpressError = require('./utilities/ExpressError');
-
+const mongoSanitize = require('express-mongo-sanitize');
 const userRoutes = require('./routes/users');
 const teamRoutes = require('./routes/teams');
 const playerRoutes = require('./routes/players');
 const reviewRoutes = require('./routes/reviews');
 const stadiumRoutes = require('./routes/stadia');
+const MongoStore = require('connect-mongo');
 
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/playerTracker';
-const secret = process.env.SECRET || 'thisisasecret';
 
 mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
-});
-
-const MongoStore = require('connect-mongo');
-const store = MongoStore.create({
-  mongoUrl: dbUrl,
-  touchAfter: 24 * 60 * 60,
-  crypto: {
-    secret,
-  },
-});
-
-store.on('error', function (e) {
-  console.log('SESSION STORE ERROR', e);
 });
 
 const db = mongoose.connection;
@@ -64,6 +49,19 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize());
 
+const secret = process.env.SECRET || 'thisisasecret';
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret,
+  },
+});
+
+store.on('error', function (e) {
+  console.log('SESSION STORE ERROR', e);
+});
+
 const sessionConfig = {
   store,
   name: 'session',
@@ -77,9 +75,9 @@ const sessionConfig = {
     maxAge: 1000 * 60 * 60 * 7,
   },
 };
+
 app.use(session(sessionConfig));
 app.use(flash());
-
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
