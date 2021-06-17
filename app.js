@@ -23,11 +23,27 @@ const playerRoutes = require('./routes/players');
 const reviewRoutes = require('./routes/reviews');
 const stadiumRoutes = require('./routes/stadia');
 
-mongoose.connect('mongodb://localhost:27017/playerTracker', {
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/playerTracker';
+const secret = process.env.SECRET || 'thisisasecret';
+
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
+});
+
+const MongoStore = require('connect-mongo');
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret,
+  },
+});
+
+store.on('error', function (e) {
+  console.log('SESSION STORE ERROR', e);
 });
 
 const db = mongoose.connection;
@@ -49,8 +65,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize());
 
 const sessionConfig = {
+  store,
   name: 'session',
-  secret: 'secret',
+  secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
