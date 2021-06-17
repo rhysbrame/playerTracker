@@ -26,7 +26,7 @@
     "mongo-sanitize": "^1.1.0",
     "mongoose": "^5.12.7",
     "morgan": "^1.10.0",
-    "node-vibrant": "*",
+    "node-vibrant": "3.2.1-alpha.1",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^6.1.0",
